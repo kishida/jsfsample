@@ -16,8 +16,11 @@
                 <p:column headerText="種別">
                     <h:outputText value="#{m.type.displayName}"/>
                 </p:column>
+                <p:column headerText="編集">
+                    <p:commandButton value="編集" action="#{memberBean.startEdit(m)}"/>
+                </p:column>
             </p:dataTable>
-            <p:commandButton value="追加"/>
+            <p:commandButton value="追加" action="#{memberBean.startCreate()}"/>
         </h:form>
     </h:body>
 </html>
