@@ -16,8 +16,10 @@
                 <p:column headerText="種別">
                     <h:outputText value="#{m.type.displayName}"/>
                 </p:column>
-                <p:column headerText="編集">
+                <p:column headerText="操作">
                     <p:commandButton value="編集" action="#{memberBean.startEdit(m)}"/>
+                    <p:commandButton value="削除" onclick="return confirm('#{m.memberName}を削除しますか？')"
+                                     action="index"/>
                 </p:column>
             </p:dataTable>
             <p:commandButton value="追加" action="#{memberBean.startCreate()}"/>
