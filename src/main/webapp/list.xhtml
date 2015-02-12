@@ -18,7 +18,7 @@
                     <h:outputText value="#{m.type.displayName}"/>
                 </p:column>
                 <p:column headerText="操作">
-                    <p:commandButton value="編集" action="#{memberBean.startEdit(m)}"/>
+                    <p:commandButton value="編集" action="#{memberBean.startEdit(m)}" ajax="false"/>
                     <!-- 
                     onclickではこのあとにoncomplete相当のコードが埋め込まれるので、完結した文にする
                     ここでdoDeleteに直接パラメータを渡せなかったので、setPropertyActionListenerを使っている
@@ -35,7 +35,8 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="追加" action="#{memberBean.startCreate()}"/>
+            <!-- 画面を遷移するだけのときはajax=falseしないと画面がリセットされない !-->
+            <p:commandButton value="追加" action="#{memberBean.startCreate()}" ajax="false"/>
         </h:form>
     </h:body>
 </html>

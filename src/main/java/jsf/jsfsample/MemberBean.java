@@ -64,4 +64,12 @@ public class MemberBean implements Serializable{
     public boolean isEdit(){
         return original.isPresent();
     }
+    
+    public MemberType[] getMemberTypes(){
+        return MemberType.values();
+    }
+    
+    public EnumConverter<MemberType> getMemberTypeConverter(){
+        return new EnumConverter<>(MemberType.class);
+    }
 }

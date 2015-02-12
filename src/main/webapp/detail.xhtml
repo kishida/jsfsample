@@ -1,13 +1,40 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
         <h1>#{memberBean.edit ? "編集" : "新規"}</h1>
-        
+        <h:form id="fm">
+            <p:panelGrid>
+                <p:row>
+                    <p:column><p:outputLabel value="名前"/></p:column>
+                    <p:column><p:inputText value="#{memberBean.editing.memberName}"/></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="種類"/></p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{memberBean.editing.type}">
+                            <f:converter binding="#{memberBean.memberTypeConverter}"/>
+                            <f:selectItems value="#{memberBean.memberTypes}" var="t" itemLabel="#{t.displayName}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="名前"/></p:column>
+                    <p:column><p:inputText value="#{memberBean.editing.memberName}"/></p:column>
+                </p:row>
+            </p:panelGrid>
+            <!-- 
+            URLが一相遅れるのを解決させるためにfaces-redirect=trueする
+            バリデーション不要の場合はimmediate=trueしておく
+            -->
+            <p:commandButton value="一覧に戻る" action="list?faces-redirect=true" immediate="true" ajax="false"/>
+        </h:form>
     </h:body>
 </html>
 
