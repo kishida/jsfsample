@@ -38,6 +38,9 @@ public class MemberBean implements Serializable{
         original = Optional.of(org);
         
         editing = new Member(org.memberName, org.type);
+        for(SocialNet sn : org.socials){
+            editing.socials.add(new SocialNet(sn.name, sn.account));
+        }
         
         return "detail";
     }
@@ -83,6 +86,11 @@ public class MemberBean implements Serializable{
                     editing.address2 = city[idx];
                 });
     }
+    
+    public void startSnsCreate(){
+        
+    }
+    
     
     public boolean isEdit(){
         return original.isPresent();

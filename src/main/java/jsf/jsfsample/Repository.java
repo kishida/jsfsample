@@ -22,7 +22,9 @@ public class Repository {
     @PostConstruct
     public void init(){
         members = new ArrayList<>();
-        members.add(new Member("きしだ", MemberType.PERSONAL));
+        Member m = new Member("きしだ", MemberType.PERSONAL);
+        m.getSocials().add(new SocialNet("はてな", "nowokay"));
+        members.add(m);
         members.add(new Member("ほげ商会", MemberType.COMPANY));
     }
     

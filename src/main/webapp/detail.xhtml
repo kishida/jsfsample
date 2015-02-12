@@ -63,7 +63,10 @@
                         <!-- ボタン情報を送るためにprocessに@thisが必要 -->
                         <p:commandButton value="検索" action="#{memberBean.searchZipcode()}"
                                          process="@this txtZipCode"
-                                         update="txtAddress1 txtAddress2"/>
+                                         update="txtAddress1 txtAddress2">
+                            <!-- バリデーションエラーをリセット -->
+                            <p:resetInput target="txtAddress1 txtAddress2"/>
+                        </p:commandButton>
                     </p:column>
                 </p:row>
                 <p:row>
@@ -76,6 +79,28 @@
                 </p:row>
 
             </p:panelGrid>
+            
+            <p:dataTable value="#{memberBean.editing.socials}" var="s" emptyMessage="SNSは登録されていません">
+                <p:column headerText="名前">
+                    <h:outputText value="#{s.name}"/>
+                </p:column>
+                <p:column headerText="アカウント">
+                    <h:outputText value="#{s.account}"/>
+                </p:column>
+            </p:dataTable>
+            <p:dialog id="dlgInputSns" widgetVar="dlgInputSnsVar">
+                <p:messages id="msgSns"/>
+                <p:panelGrid>
+                    <p:outputLabel value="SNS名" for="txtSnsName"/>
+                    <p:inputText id="txtSnsName" required="true"/>
+                    <p:outputLabel value="アカウント" for="txtSnsAccount"/>
+                    <p:inputText id="txtSnsAccount" required="true"/>
+                </p:panelGrid>
+            </p:dialog>
+            <p:commandButton value="SNS追加"
+                             process="@this" update=":fm:dlgInputSns"
+                             actionListener="#{memberBean.startSnsCreate()}"
+                             oncomplete="dlgInputSnsVar.show()"/>
             <!-- 
             URLが一相遅れるのを解決させるためにfaces-redirect=trueする
             バリデーション不要の場合はimmediate=trueしておく

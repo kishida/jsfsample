@@ -5,6 +5,7 @@
  */
 package jsf.jsfsample;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,5 +34,6 @@ public class Member {
     public Member(String name, MemberType type){
         this.memberName = name;
         this.type = type;
+        this.socials = new ArrayList<>();
     }
 }

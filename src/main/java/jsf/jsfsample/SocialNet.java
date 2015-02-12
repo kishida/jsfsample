@@ -5,13 +5,17 @@
  */
 package jsf.jsfsample;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author kishida
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SocialNet {
     String name;
     String account;
