@@ -10,29 +10,78 @@
     <h:body>
         <h1>#{memberBean.edit ? "編集" : "新規"}</h1>
         <h:form id="fm">
+            <p:messages id="msg"/>
             <p:panelGrid>
                 <p:row>
-                    <p:column><p:outputLabel value="名前"/></p:column>
-                    <p:column><p:inputText value="#{memberBean.editing.memberName}"/></p:column>
+                    <p:column><p:outputLabel value="名前" for="txtName"/></p:column>
+                    <p:column><p:inputText id="txtName" value="#{memberBean.editing.memberName}" required="true"/></p:column>
                 </p:row>
                 <p:row>
-                    <p:column><p:outputLabel value="種類"/></p:column>
+                    <p:column><p:outputLabel value="種類" for="selType"/></p:column>
                     <p:column>
-                        <p:selectOneMenu value="#{memberBean.editing.type}">
+                        <p:selectOneMenu id="selType" value="#{memberBean.editing.type}" required="true">
                             <f:converter binding="#{memberBean.memberTypeConverter}"/>
+                            <f:selectItem itemLabel="選択してください"/>
                             <f:selectItems value="#{memberBean.memberTypes}" var="t" itemLabel="#{t.displayName}"/>
+                            <p:ajax update="txtParent txtRepresentative txtFax lblTelephone"/>
                         </p:selectOneMenu>
                     </p:column>
                 </p:row>
-                <p:row>
-                    <p:column><p:outputLabel value="名前"/></p:column>
-                    <p:column><p:inputText value="#{memberBean.editing.memberName}"/></p:column>
+                <!-- 表示非表示の切り替えは断念・・・outputPanelでいける気がしたけど -->
+                <p:row >
+                    <p:column><p:outputLabel value="保護者" id="lblParent" /></p:column>
+                    <p:column><p:inputText id="txtParent" value="#{memberBean.editing.parentName}" disabled="#{!memberBean.personal}"/></p:column>
                 </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="代表者"/></p:column>
+                    <p:column><p:inputText id="txtRepresentative" value="#{memberBean.editing.representative}"  disabled="#{memberBean.personal}"/></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel id="lblTelephone" for="txtTelephone" value="電話番号"/></p:column>
+                    <p:column><p:inputText id="txtTelephone" value="#{memberBean.editing.telephone}" required="#{!memberBean.personal}"/></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="FAX"/></p:column>
+                    <p:column><p:inputText id="txtFax" value="#{memberBean.editing.fax}" disabled="#{memberBean.personal}"/></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="メールを受け取る"/></p:column>
+                    <p:column><p:selectBooleanCheckbox itemLabel="メールを受け取る" 
+                                                       value="#{memberBean.editing.allowMail}">
+                            <p:ajax update="txtMailAddress lblMailAddress"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel id="lblMailAddress" value="メールアドレス" for="txtMailAddress"/></p:column>
+                    <p:column><p:inputText value="#{memberBean.editing.mailAddress}"
+                                           id="txtMailAddress" required="#{memberBean.editing.allowMail}"/></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="郵便番号"/></p:column>
+                    <p:column><p:inputText id="txtZipCode" value="#{memberBean.editing.zipCode}"/>
+                        <!-- ボタン情報を送るためにprocessに@thisが必要 -->
+                        <p:commandButton value="検索" action="#{memberBean.searchZipcode()}"
+                                         process="@this txtZipCode"
+                                         update="txtAddress1 txtAddress2"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="住所1" for="txtAddress1"/></p:column>
+                    <p:column><p:inputText id="txtAddress1" value="#{memberBean.editing.address1}" required="true"/></p:column>
+                </p:row>
+                <p:row>
+                    <p:column><p:outputLabel value="住所2"/></p:column>
+                    <p:column><p:inputText id="txtAddress2" value="#{memberBean.editing.address2}"/></p:column>
+                </p:row>
+
             </p:panelGrid>
             <!-- 
             URLが一相遅れるのを解決させるためにfaces-redirect=trueする
             バリデーション不要の場合はimmediate=trueしておく
             -->
+            <p:commandButton value="作成" action="#{memberBean.doCreate()}" rendered="#{!memberBean.edit}" update=":fm"/>
+            <p:commandButton value="更新" action="#{memberBean.doEdit()}" rendered="#{memberBean.edit}" update=":fm"/>
             <p:commandButton value="一覧に戻る" action="list?faces-redirect=true" immediate="true" ajax="false"/>
         </h:form>
     </h:body>

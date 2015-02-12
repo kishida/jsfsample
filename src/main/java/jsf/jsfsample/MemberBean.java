@@ -44,7 +44,16 @@ public class MemberBean implements Serializable{
     
     public String startCreate(){
         original = Optional.empty();
+        editing = new Member();
         return "detail";
+    }
+    
+    public String doCreate(){
+        return "list?faces-redirect=true";
+    }
+    
+    public String doEdit(){
+        return "list?faces-redirect=true";
     }
     
     public void doDelete(){
@@ -60,9 +69,27 @@ public class MemberBean implements Serializable{
         RequestContext.getCurrentInstance().addCallbackParam("isSuccess", success);
     }
     
+    public void searchZipcode(){
+        String[] pref = {"北海道", "東京都", "神奈川県" , "長野県", "愛知県", "大阪府", "京都府", "広島県", "福岡県", "沖縄県"};
+        String[] city = {"札幌市", "千代田区", "横浜市", "長野市", "名古屋市", "箕面市", "京都市中京区", "広島市安佐南区", "福岡市博多区", "那覇市"};
+
+        Optional.ofNullable(editing)
+                .map(m -> m.zipCode)
+                .filter(s -> !s.isEmpty())
+                .map(s -> s.charAt(0) - '0')
+                .filter(idx -> idx >= 0 && idx <= 9)
+                .ifPresent(idx -> {
+                    editing.address1 = pref[idx];
+                    editing.address2 = city[idx];
+                });
+    }
     
     public boolean isEdit(){
         return original.isPresent();
+    }
+    
+    public boolean isPersonal(){
+        return editing.getType() == MemberType.PERSONAL;
     }
     
     public MemberType[] getMemberTypes(){
