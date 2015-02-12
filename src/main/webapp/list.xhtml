@@ -2,14 +2,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <h:form>
+        <h:form id="fm">
             <h1>一覧</h1>
-            <p:dataTable var="m" value="#{repository.members}">
+            <p:dataTable var="m" value="#{repository.members}" id="tblMember">
                 <p:column headerText="名前">
                     <h:outputText value="#{m.memberName}"/>
                 </p:column>
@@ -18,8 +19,20 @@
                 </p:column>
                 <p:column headerText="操作">
                     <p:commandButton value="編集" action="#{memberBean.startEdit(m)}"/>
-                    <p:commandButton value="削除" onclick="return confirm('#{m.memberName}を削除しますか？')"
-                                     action="index"/>
+                    <!-- 
+                    onclickではこのあとにoncomplete相当のコードが埋め込まれるので、完結した文にする
+                    ここでdoDeleteに直接パラメータを渡せなかったので、setPropertyActionListenerを使っている
+                    actionListener -> setPropertyActionListener -> action
+                    という順になる。はず
+                    actionの結果は、argsでうけとれる。BeanではRequestContextにaddCallbackParamする
+                    -->
+                    <p:commandButton value="削除" onclick="if(! confirm('#{m.memberName}を削除しますか？')){return false;}"
+                                     action="#{memberBean.doDelete()}"
+                                     oncomplete="if(!args.isSuccess) {alert('削除できませんでした');}"
+                                     update=":fm:tblMember"
+                                     >
+                        <f:setPropertyActionListener target="#{memberBean.selected}" value="#{m}"/>
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
             <p:commandButton value="追加" action="#{memberBean.startCreate()}"/>

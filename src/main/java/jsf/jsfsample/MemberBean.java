@@ -7,11 +7,14 @@
 package jsf.jsfsample;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Optional;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -21,14 +24,20 @@ import lombok.Setter;
 @SessionScoped
 public class MemberBean implements Serializable{
     @Setter @Getter
-    Member edit = null;
+    Member editing = null;
+    
+    @Setter @Getter
+    Member selected;
     
     Optional<Member> original = Optional.empty();
+    
+    @Inject
+    Repository repository;
     
     public String startEdit(Member org){
         original = Optional.of(org);
         
-        edit = new Member(org.memberName, org.type);
+        editing = new Member(org.memberName, org.type);
         
         return "detail";
     }
@@ -37,6 +46,20 @@ public class MemberBean implements Serializable{
         original = Optional.empty();
         return "detail";
     }
+    
+    public void doDelete(){
+        boolean success = false;
+        for(Iterator<Member> ite = repository.getMembers().iterator(); ite.hasNext();){
+            Member m = ite.next();
+            if(m.type == MemberType.PERSONAL && m.getMemberName().equals(selected.getMemberName())){
+                ite.remove();
+                success = true;
+                break;
+            }
+        }
+        RequestContext.getCurrentInstance().addCallbackParam("isSuccess", success);
+    }
+    
     
     public boolean isEdit(){
         return original.isPresent();
