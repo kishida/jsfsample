@@ -29,6 +29,9 @@ public class MemberBean implements Serializable{
     @Setter @Getter
     Member selected;
     
+    @Getter
+    SocialNet editingSns = null;
+    
     Optional<Member> original = Optional.empty();
     
     @Inject
@@ -88,9 +91,12 @@ public class MemberBean implements Serializable{
     }
     
     public void startSnsCreate(){
-        System.out.println("create");
+        editingSns = new SocialNet();
     }
     
+    public void doSnsCreate(){
+        editing.getSocials().add(editingSns);
+    }
     
     public boolean isEdit(){
         return original.isPresent();
