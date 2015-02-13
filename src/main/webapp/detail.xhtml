@@ -88,19 +88,24 @@
                     <h:outputText value="#{s.account}"/>
                 </p:column>
             </p:dataTable>
-            <p:dialog id="dlgInputSns" widgetVar="dlgInputSnsVar">
+            <p:commandButton value="SNS追加"
+                             process="@this" update="dlgInputSns"
+                             actionListener="#{memberBean.startSnsCreate()}"
+                             oncomplete="PF('dlgInputSnsVar').show()"/>
+            <p:dialog id="dlgInputSns" widgetVar="dlgInputSnsVar" header="SNS入力" modal="true" resizable="false">
                 <p:messages id="msgSns"/>
-                <p:panelGrid>
+            <p:panelGrid columns="2">
                     <p:outputLabel value="SNS名" for="txtSnsName"/>
                     <p:inputText id="txtSnsName" required="true"/>
                     <p:outputLabel value="アカウント" for="txtSnsAccount"/>
                     <p:inputText id="txtSnsAccount" required="true"/>
+                    <f:facet name="footer">
+                        <p:commandButton value="追加"/>
+                        <p:commandButton value="閉じる" onclick="PF('dlgInputSnsVar').hide()" immediate="true"/>
+                    </f:facet>
                 </p:panelGrid>
+
             </p:dialog>
-            <p:commandButton value="SNS追加"
-                             process="@this" update=":fm:dlgInputSns"
-                             actionListener="#{memberBean.startSnsCreate()}"
-                             oncomplete="dlgInputSnsVar.show()"/>
             <!-- 
             URLが一相遅れるのを解決させるためにfaces-redirect=trueする
             バリデーション不要の場合はimmediate=trueしておく
@@ -108,6 +113,7 @@
             <p:commandButton value="作成" action="#{memberBean.doCreate()}" rendered="#{!memberBean.edit}" update=":fm"/>
             <p:commandButton value="更新" action="#{memberBean.doEdit()}" rendered="#{memberBean.edit}" update=":fm"/>
             <p:commandButton value="一覧に戻る" action="list?faces-redirect=true" immediate="true" ajax="false"/>
+
         </h:form>
     </h:body>
 </html>

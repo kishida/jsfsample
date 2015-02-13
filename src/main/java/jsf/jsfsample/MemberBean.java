@@ -88,7 +88,7 @@ public class MemberBean implements Serializable{
     }
     
     public void startSnsCreate(){
-        
+        System.out.println("create");
     }
     
     
