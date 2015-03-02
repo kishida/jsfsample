@@ -57,10 +57,33 @@ RequestContext.getCurrentInstance().addCallbackParam("isSuccess", success);
 oncomplete="if(!args.isSuccess) {alert('削除できませんでした');}"
 ```
 
+## 編集画面
 ![](images/jsf02.png)
+
+編集用の値を保持するようにします。
+(元データを編集してしまうと、キャンセルがきかない)
+
+タイトルやボタンは、新規と編集で切り替えます。
+
+
+## コンボボックスの内容での入力項目切り替え
+コンボボックスで入力項目の有効・無効の切り替え
 ![](images/jsf03.png)
+
+## チェックボックスでの必須・任意きりかえ
 ![](images/jsf04.png)
-![](images/jsf05.png)
-![](images/jsf06.png)
-![](images/jsf07.png)
+
 ![](images/jsf08.png)
+
+
+## Ajax検索
+![](images/jsf05.png)
+
+入力エラーが出たあとで正常に表示更新できなくなるので、resetを設定します。
+
+## ダイアログ入力
+![](images/jsf06.png)
+
+## 新規画面
+![](images/jsf07.png)
+
