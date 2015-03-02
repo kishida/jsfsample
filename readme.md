@@ -16,6 +16,7 @@
 
 ## JavaScriptダイアログとの連携
 削除ボタンを押すとJavaScriptの確認ダイアログを表示します。
+
 ![](images/jsf09.png)
 
 ```
@@ -91,6 +92,7 @@ oncomplete="if(!args.isSuccess) {alert('削除できませんでした');}"
 
 ## コンボボックスの内容での入力項目切り替え
 コンボボックスで入力項目の有効・無効の切り替え
+
 ![](images/jsf03.png)
 
 selectOneMenuでp:ajaxを含めて更新対象のコンポーネントを指定します。
@@ -108,6 +110,7 @@ selectOneMenuでp:ajaxを含めて更新対象のコンポーネントを指定�
 
 ## チェックボックスでの必須・任意きりかえ
 チェックボックスで必須・任意をきりかえます。
+
 ![](images/jsf04.png)
 
 selectBooleanCheckboxにp:ajaxを含めてupdateに更新対象のコンポーネントを指定します。
@@ -141,6 +144,7 @@ processには検索内容のコンポーネントだけではなく、ボタン�
 
 ## ダイアログ入力
 ダイアログでの入力
+
 ![](images/jsf06.png)
 
 JavaScriptでダイアログをhide()する必要があるため、JavaScriptからコンポーネントを利用するための変数としてwidgetVarを指定します。
